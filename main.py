@@ -63,7 +63,7 @@ def main(page: ft.Page):
                 <li>Item 2</li>
             </ul>
             <a href="https://example.com">Visit Example</a>
-            <img src="https://example.com/image.jpg" alt="Example Image">
+            <img src="https://picsum.photos/200/200?10" alt="Example Image">
         </div>
     """
     flet_code = convert_html_to_flet(html_content)
