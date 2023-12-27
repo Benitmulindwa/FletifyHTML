@@ -1,11 +1,62 @@
-from bs4 import BeautifulSoup
 import flet as ft
 
 
-def convert_html_to_flet(html_content):
-    soup = BeautifulSoup(html_content, "html.parser")
-    flet_code = parse_html_to_flet(soup)
-    return flet_code
+class HTML:
+    # ----------------------------------------------------------------------------------------------
+    """
+    supported HTML tags and attributes
+    """
+
+    html_tags = [
+        "br",
+        "ul",
+        "ol",
+        "li",
+        "img",
+        "a",
+        "b",
+        "strong",
+        "i",
+        "em",
+        "u",
+        "mark",
+        "span",
+        "div",
+        "p",
+        "pre",
+        "code",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "table",
+        "tr",
+        "th",
+        "td",
+    ]
+
+    ATTRIBUTES = ["style", "href", "src", "width", "height", "type"]
+
+    class Style:
+        COLOR = "color"
+        BACKGROUND_COLOR = "background-color"
+        FONT_FAMILY = "font-family"
+        FONT_SIZE = "font-size"
+        TEXT_ALIGN = "text-align"
+        TEXT_DECORATION = "text-decoration"
+
+    STYLE_TEXT_DECORATION = ["underline", "line-through"]
+
+    HEADINGS_TEXT_SIZE = {
+        "h1": 32,
+        "h2": 24,
+        "h3": 18,
+        "h4": 16,
+        "h5": 13,
+        "h6": 10,
+    }
 
 
 def parse_html_to_flet(element):
