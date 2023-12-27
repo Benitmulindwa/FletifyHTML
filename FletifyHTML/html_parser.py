@@ -174,7 +174,10 @@ def parse_html_to_flet(element):
             weight=ft.FontWeight.BOLD if element.name == "b" else ft.FontWeight.W_900,
         )
         return bold_text
-
+    # Italic Tag
+    elif element.name == "i" or element.name == "em":
+        italic_text = ft.Text(element.text, italic=True)
+        return italic_text
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()
