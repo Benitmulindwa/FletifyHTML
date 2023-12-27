@@ -178,6 +178,17 @@ def parse_html_to_flet(element):
     elif element.name == "i" or element.name == "em":
         italic_text = ft.Text(element.text, italic=True)
         return italic_text
+    # Underline Tag
+    elif element.name == "u":
+        underlined_text = ft.Text(
+            spans=[
+                ft.TextSpan(
+                    element.text,
+                    style=ft.TextStyle(decoration=ft.TextDecoration.UNDERLINE),
+                )
+            ]
+        )
+        return underlined_text
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()
