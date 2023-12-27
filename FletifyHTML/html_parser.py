@@ -39,13 +39,36 @@ class HTML:
 
     ATTRIBUTES = ["style", "href", "src", "width", "height", "type"]
 
-    class Style:
-        COLOR = "color"
-        BACKGROUND_COLOR = "background-color"
-        FONT_FAMILY = "font-family"
-        FONT_SIZE = "font-size"
-        TEXT_ALIGN = "text-align"
-        TEXT_DECORATION = "text-decoration"
+    style_attributes = [
+        "color",
+        "background-color",
+        "font-family",
+        "font-size",
+        "font-weight",
+        "font-style",
+        "text-align",
+        "text-decoration",
+        "padding",
+        "margin",
+        "border",
+        "border-radius",
+        "width",
+        "height",
+        "display",
+        "flex",
+        "justify-content",
+        "align-items",
+        "box-shadow",
+        "line-height",
+        "letter-spacing",
+        "word-spacing",
+        "overflow",
+        "position",
+        "top",
+        "right",
+        "bottom",
+        "left",
+    ]
 
     STYLE_TEXT_DECORATION = ["underline", "line-through"]
 
@@ -62,14 +85,18 @@ class HTML:
 def parse_html_to_flet(element):
     if element.name == "div":
         # Map <div> to ft.Container
-        container = ft.Column([ft.Container()])
+        container = ft.Column([])
         for child in element.children:
             if child.name:
                 # Recursively parse child elements
                 child_flet = parse_html_to_flet(child)
                 container.controls.append(child_flet)
         return container
-
+    elif element.name in HTML.HEADINGS_TEXT_SIZE.keys():
+        heading_text = ft.Text(
+            value=element.text, size=HTML.HEADINGS_TEXT_SIZE[element.name]
+        )
+        return heading_text
     elif element.name == "span":
         # Map <span> to ft.Text
         text = ft.Text(value=element.text)
@@ -80,7 +107,15 @@ def parse_html_to_flet(element):
         return paragraph
     elif element.name == "a":
         # Map <a> to ft.Text with a URL
-        link = ft.Text(spans=[ft.TextSpan(element.text, url=element.get("href"))])
+        link = ft.Text(
+            spans=[
+                ft.TextSpan(
+                    element.text,
+                    url=element.get("href"),
+                    style=ft.TextStyle(italic=True, color="blue"),
+                )
+            ]
+        )
         return link
     elif element.name == "img":
         # Map <img> to ft.Image with a source URL
@@ -102,3 +137,22 @@ def parse_html_to_flet(element):
                 child_flet = parse_html_to_flet(child)
                 container.content = child_flet
         return container
+
+
+# ____________________________________________________________________
+
+
+def parse_inline_styles(style_string):
+    # Parse inline styles and convert to Flet properties
+    style_properties = {}
+    for style_declaration in style_string.split(";"):
+        if ":" in style_declaration:
+            property_name, property_value = style_declaration.split(":")
+            property_name = property_name.strip()
+            property_value = property_value.strip()
+
+            # Convert property_name to Flet style name if needed
+            # For simplicity, let's assume the property names are the same
+            style_properties[property_name] = property_value
+
+    return style_properties
