@@ -37,7 +37,13 @@ class HTML:
         "td",
     ]
 
-    ATTRIBUTES = ["style", "href", "src", "width", "height", "type"]
+    class Attrs:
+        STYLE = "style"
+        HREF = "href"
+        SRC = "src"
+        WIDTH = "width"
+        HEIGHT = "height"
+        TYPE = "type"
 
     style_attributes = [
         "color",
@@ -98,9 +104,10 @@ def parse_html_to_flet(element):
             value=element.text, size=HTML.HEADINGS_TEXT_SIZE[element.name]
         )
         return heading_text
+    # Paragraph tag
     elif element.name == "p":
-        if element.get(HTML.ATTRIBUTES[0]):
-            style_props = parse_inline_styles(element.get(HTML.ATTRIBUTES[0]))[
+        if element.get(HTML.Attrs.STYLE):
+            style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))[
                 "decoration"
             ]
             style = ft.TextStyle(
@@ -116,13 +123,14 @@ def parse_html_to_flet(element):
         # Map <p> to ft.Text within ft.Container
         paragraph = ft.Container(content=ft.Text(value=element.text, style=style))
         return paragraph
+    # Link tag
     elif element.name == "a":
         # Map <a> to ft.Text with a URL
         link = ft.Text(
             spans=[
                 ft.TextSpan(
                     element.text,
-                    url=element.get(HTML.ATTRIBUTES[1]),
+                    url=element.get(HTML.Attrs.HREF),
                     style=ft.TextStyle(italic=True, color="blue"),
                 )
             ]
@@ -130,7 +138,7 @@ def parse_html_to_flet(element):
         return link
     elif element.name == "img":
         # Map <img> to ft.Image with a source URL
-        image = ft.Image(src=element.get(HTML.ATTRIBUTES[2]))
+        image = ft.Image(src=element.get(HTML.Attrs.SRC))
         return image
 
     # HTML lists
