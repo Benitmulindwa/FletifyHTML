@@ -9,7 +9,8 @@ html_content = """
             <p style="text-decoration: underline;">This is underlined text.</p>
             <p style="text-decoration: overline;">This has an overline.</p>
             <p style="text-decoration: line-through;">This text has a line through it.</p>
-
+            <b>This is a bold text</b>
+            <strong>This is a STRONG text</strong>
 
             <ul>
                 <li>Item 1</li>

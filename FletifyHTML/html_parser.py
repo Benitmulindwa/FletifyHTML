@@ -157,7 +157,13 @@ def parse_html_to_flet(element):
 
             list_container.controls.append(list_item)
         return list_container
-
+    # Bold Tags
+    elif element.name == "b" or element.name == "strong":
+        bold_text = ft.Text(
+            value=element.text,
+            weight=ft.FontWeight.BOLD if element.name == "b" else ft.FontWeight.W_900,
+        )
+        return bold_text
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()
