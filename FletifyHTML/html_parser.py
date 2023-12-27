@@ -99,29 +99,22 @@ def parse_html_to_flet(element):
         )
         return heading_text
     elif element.name == "p":
-        # if element.get(HTML.ATTRIBUTES[0]):
-        #     style_props = parse_inline_styles(element.get(HTML.ATTRIBUTES[0]))[
-        #         "decoration"
-        #     ]
-        #     style = ft.TextStyle(
-        #         decoration=getattr(
-        #             ft.TextDecoration,
-        #             "LINE_THROUGH"
-        #             if style_props == "line-through"
-        #             else style_props.upper(),
-        #         )
-        #     )
-        # else:
-        #     style = None
-        # Map <p> to ft.Text within ft.Container
-        paragraph = ft.Container(
-            content=ft.Text(
-                value=element.text,
-                style=ft.TextStyle(
-                    bgcolor="red", decoration=ft.TextDecoration.UNDERLINE
-                ),
+        if element.get(HTML.ATTRIBUTES[0]):
+            style_props = parse_inline_styles(element.get(HTML.ATTRIBUTES[0]))[
+                "decoration"
+            ]
+            style = ft.TextStyle(
+                decoration=getattr(
+                    ft.TextDecoration,
+                    "LINE_THROUGH"
+                    if style_props == "line-through"
+                    else style_props.upper(),
+                )
             )
-        )
+        else:
+            style = None
+        # Map <p> to ft.Text within ft.Container
+        paragraph = ft.Container(content=ft.Text(value=element.text, style=style))
         return paragraph
     elif element.name == "a":
         # Map <a> to ft.Text with a URL
