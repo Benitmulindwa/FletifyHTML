@@ -6,10 +6,10 @@ html_content = """
         <div>
             <h1>Title</h1>
             <p>This is a paragraph.</p>
-            <ul>
+            <ol>
                 <li>Item 1</li>
                 <li>Item 2</li>
-            </ul>
+            </ol>
             <a href="https://example.com">Visit Example</a>
             <img src="https://picsum.photos/200/200?10" alt="Example Image">
         </div>

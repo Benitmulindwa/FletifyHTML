@@ -121,11 +121,15 @@ def parse_html_to_flet(element):
 
     elif element.name == "ul" or element.name == "ol":
         # Map <ul> and <ol> to ft.Column or ft.Row with ft.Text elements
-        list_container = ft.Column() if element.name == "ul" else ft.Row()
-        for li in element.find_all("li"):
-            list_item = ft.ListTile(
-                title=ft.Text(li.text), leading=ft.Text("•", size=20)
+        list_container = ft.Column()
+
+        for i, li in enumerate(element.find_all("li")):
+            _leading = (
+                ft.Text("•", size=20)
+                if element.name == "ul"
+                else ft.Text(f"{i+1}", size=16)
             )
+            list_item = ft.ListTile(title=ft.Text(li.text), leading=_leading)
 
             list_container.controls.append(list_item)
         return list_container
