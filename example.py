@@ -5,7 +5,7 @@ import flet as ft
 html_content = """
         <div>
             <h1>Title</h1>
-            <p>This is a paragraph.</p>
+            <p style="background-color: red; color:black; font-size:30">This is a paragraph.</p>
             <p style="text-decoration: underline; background-color: blue">This is underlined text.</p>
             <p style="text-decoration: overline;">This has an overline.</p>
             

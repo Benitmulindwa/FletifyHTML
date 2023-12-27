@@ -107,9 +107,8 @@ def parse_html_to_flet(element):
     elif element.name == "p":
         if element.get(HTML.Attrs.STYLE):
             style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))
-            # print(style_props)
             style = ft.TextStyle(**style_props)
-            print(style)
+
         else:
             style = None
         # Map <p> to ft.Text within ft.Row
@@ -210,7 +209,7 @@ html_to_flet_style_mapping = {
     "color": "color",
     "background-color": "bgcolor",
     "font-family": "font_family",
-    "font-size": "font_size",
+    "font-size": "size",
     "text-align": "text_align",
     "text-decoration": "decoration",
 }
@@ -236,6 +235,7 @@ def parse_inline_styles(style_string):
                 }
 
                 style_properties[property_name] = property_value
+                # handle decoration property
                 if property_name == "decoration" and property_value in deco_values:
                     style_properties["decoration"] = deco_values[property_value]
 
