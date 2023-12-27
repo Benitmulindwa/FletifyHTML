@@ -70,7 +70,7 @@ class HTML:
         "left",
     ]
 
-    STYLE_TEXT_DECORATION = ["underline", "line-through"]
+    TEXT_STYLE_DECORATION = ["underline", "line-through", "overline"]
 
     HEADINGS_TEXT_SIZE = {
         "h1": 32,
@@ -99,8 +99,29 @@ def parse_html_to_flet(element):
         )
         return heading_text
     elif element.name == "p":
+        # if element.get(HTML.ATTRIBUTES[0]):
+        #     style_props = parse_inline_styles(element.get(HTML.ATTRIBUTES[0]))[
+        #         "decoration"
+        #     ]
+        #     style = ft.TextStyle(
+        #         decoration=getattr(
+        #             ft.TextDecoration,
+        #             "LINE_THROUGH"
+        #             if style_props == "line-through"
+        #             else style_props.upper(),
+        #         )
+        #     )
+        # else:
+        #     style = None
         # Map <p> to ft.Text within ft.Container
-        paragraph = ft.Container(content=ft.Text(value=element.text))
+        paragraph = ft.Container(
+            content=ft.Text(
+                value=element.text,
+                style=ft.TextStyle(
+                    bgcolor="red", decoration=ft.TextDecoration.UNDERLINE
+                ),
+            )
+        )
         return paragraph
     elif element.name == "a":
         # Map <a> to ft.Text with a URL
@@ -108,7 +129,7 @@ def parse_html_to_flet(element):
             spans=[
                 ft.TextSpan(
                     element.text,
-                    url=element.get("href"),
+                    url=element.get(HTML.ATTRIBUTES[1]),
                     style=ft.TextStyle(italic=True, color="blue"),
                 )
             ]
@@ -116,12 +137,14 @@ def parse_html_to_flet(element):
         return link
     elif element.name == "img":
         # Map <img> to ft.Image with a source URL
-        image = ft.Image(src=element.get("src"))
+        image = ft.Image(src=element.get(HTML.ATTRIBUTES[2]))
         return image
+
+    # HTML lists
 
     elif element.name == "ul" or element.name == "ol":
         # Map <ul> and <ol> to ft.Column or ft.Row with ft.Text elements
-        list_container = ft.Column()
+        list_container = ft.Column(spacing=0)
 
         for i, li in enumerate(element.find_all("li")):
             _leading = (
@@ -133,7 +156,7 @@ def parse_html_to_flet(element):
 
             list_container.controls.append(list_item)
         return list_container
-    # Add more mappings for other HTML elements
+
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()
@@ -145,6 +168,14 @@ def parse_html_to_flet(element):
 
 
 # ____________________________________________________________________
+html_to_flet_style_mapping = {
+    "color": "color",
+    "background-color": "background_color",
+    "font-family": "font_family",
+    "font-size": "font_size",
+    "text-align": "text_align",
+    "text-decoration": "decoration",
+}
 
 
 def parse_inline_styles(style_string):
@@ -157,7 +188,7 @@ def parse_inline_styles(style_string):
             property_value = property_value.strip()
 
             # Convert property_name to Flet style name if needed
-            # For simplicity, let's assume the property names are the same
+            property_name = html_to_flet_style_mapping[property_name]
             style_properties[property_name] = property_value
 
     return style_properties

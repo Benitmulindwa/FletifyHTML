@@ -6,10 +6,15 @@ html_content = """
         <div>
             <h1>Title</h1>
             <p>This is a paragraph.</p>
-            <ol>
+            <p style="text-decoration: underline;">This is underlined text.</p>
+            <p style="text-decoration: overline;">This has an overline.</p>
+            <p style="text-decoration: line-through;">This text has a line through it.</p>
+
+
+            <ul>
                 <li>Item 1</li>
                 <li>Item 2</li>
-            </ol>
+            </ul>
             <a href="https://example.com">Visit Example</a>
             <img src="https://picsum.photos/200/200?10" alt="Example Image">
         </div>
