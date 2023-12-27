@@ -120,7 +120,7 @@ def parse_html_to_flet(element):
         else:
             style = None
         # Map <p> to ft.Text within ft.Row
-        paragraph = ft.Row([ft.Text(value=element.text, style=style)])
+        paragraph = ft.Row([ft.Text(spans=[ft.TextSpan(element.text, style=style)])])
 
         # Support for nested tags inside the <p> tag ##STILL NEED IMPROVEMENTS
 
@@ -128,8 +128,8 @@ def parse_html_to_flet(element):
             for child in element.children:
                 if child.name:
                     p_child = parse_html_to_flet(child)
-                    paragraph.controls[0].value = paragraph.controls[0].value.replace(
-                        child.text, ""
+                    paragraph.controls[0].spans[0].text = (
+                        paragraph.controls[0].spans[0].text.replace(child.text, "")
                     )
                     paragraph.controls.append(p_child)
         return paragraph
