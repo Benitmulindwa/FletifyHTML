@@ -181,15 +181,16 @@ def parse_html_to_flet(element):
             ]
         )
         return underlined_text
+    # mark Tag
     elif element.name == "mark":
         if element.get(HTML.Attrs.STYLE):
-            style_pros = parse_inline_styles(element.get(HTML.Attrs.STYLE))
+            style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))
 
         return ft.Text(
             spans=[
                 ft.TextSpan(
                     element.text,
-                    style=ft.TextStyle(),
+                    style=ft.TextStyle(**style_props),
                 )
             ]
         )
