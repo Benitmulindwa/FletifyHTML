@@ -106,17 +106,10 @@ def parse_html_to_flet(element):
     # Paragraph tag
     elif element.name == "p":
         if element.get(HTML.Attrs.STYLE):
-            style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))[
-                "decoration"
-            ]
-            style = ft.TextStyle(
-                decoration=getattr(
-                    ft.TextDecoration,
-                    "LINE_THROUGH"
-                    if style_props == "line-through"
-                    else style_props.upper(),
-                )
-            )
+            style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))
+            # print(style_props)
+            style = ft.TextStyle(**style_props)
+            print(style)
         else:
             style = None
         # Map <p> to ft.Text within ft.Row
@@ -189,6 +182,19 @@ def parse_html_to_flet(element):
             ]
         )
         return underlined_text
+    elif element.name == "mark":
+        if element.get(HTML.Attrs.STYLE):
+            style_pros = parse_inline_styles(element.get(HTML.Attrs.STYLE))
+
+        return ft.Text(
+            spans=[
+                ft.TextSpan(
+                    element.text,
+                    style=ft.TextStyle(),
+                )
+            ]
+        )
+
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()
@@ -202,7 +208,7 @@ def parse_html_to_flet(element):
 # ____________________________________________________________________
 html_to_flet_style_mapping = {
     "color": "color",
-    "background-color": "background_color",
+    "background-color": "bgcolor",
     "font-family": "font_family",
     "font-size": "font_size",
     "text-align": "text_align",
@@ -220,7 +226,17 @@ def parse_inline_styles(style_string):
             property_value = property_value.strip()
 
             # Convert property_name to Flet style name if needed
-            property_name = html_to_flet_style_mapping[property_name]
-            style_properties[property_name] = property_value
+            property_name = html_to_flet_style_mapping.get(property_name, None)
+
+            if property_name:
+                deco_values = {
+                    "underline": ft.TextDecoration.UNDERLINE,
+                    "line-through": ft.TextDecoration.LINE_THROUGH,
+                    "overline": ft.TextDecoration.OVERLINE,
+                }
+
+                style_properties[property_name] = property_value
+                if property_name == "decoration" and property_value in deco_values:
+                    style_properties["decoration"] = deco_values[property_value]
 
     return style_properties
