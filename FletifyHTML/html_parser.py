@@ -8,7 +8,6 @@ class HTML:
     """
 
     html_tags = [
-        "br",
         "ul",
         "ol",
         "li",
@@ -122,10 +121,16 @@ def parse_html_to_flet(element):
             style = None
         # Map <p> to ft.Text within ft.Row
         paragraph = ft.Row([ft.Text(value=element.text, style=style)])
+
+        # Support for nested tags inside the <p> tag ##STILL NEED IMPROVEMENTS
+
         if element.children:
             for child in element.children:
                 if child.name:
                     p_child = parse_html_to_flet(child)
+                    paragraph.controls[0].value = paragraph.controls[0].value.replace(
+                        child.text, ""
+                    )
                     paragraph.controls.append(p_child)
         return paragraph
     # Link tag
@@ -169,10 +174,7 @@ def parse_html_to_flet(element):
             weight=ft.FontWeight.BOLD if element.name == "b" else ft.FontWeight.W_900,
         )
         return bold_text
-    # Break Tag
-    elif element.name == "br":
-        print(element.text)
-        return ft.Text(value="\n")
+
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()
