@@ -11,6 +11,11 @@ html_content = """
             <p style="text-decoration: line-through;">This text has a line through it.</p>
             <b>This is a bold text</b>
             <strong>This is a STRONG text</strong>
+            <p>This is a line.<br>This is a new line.</p>
+
+            <p style="text-decoration: underline;">This is underlined text.</p>
+            <p style="text-decoration: overline;">This has an overline.</p>
+            <p style="text-decoration: line-through;">This text has a line through it.</p>
 
             <ul>
                 <li>Item 1</li>
@@ -25,7 +30,6 @@ flet_code = convert_html_to_flet(html_content)
 
 def main(page: ft.Page):
     # Example usage:
-
     page.add(flet_code)
     page.update()
 
