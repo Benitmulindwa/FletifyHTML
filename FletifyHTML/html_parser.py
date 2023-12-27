@@ -84,7 +84,7 @@ class HTML:
 
 def parse_html_to_flet(element):
     if element.name == "div":
-        # Map <div> to ft.Container
+        # Map <div> to ft.Column
         container = ft.Column([])
         for child in element.children:
             if child.name:
@@ -92,15 +92,12 @@ def parse_html_to_flet(element):
                 child_flet = parse_html_to_flet(child)
                 container.controls.append(child_flet)
         return container
+    # Heading tags
     elif element.name in HTML.HEADINGS_TEXT_SIZE.keys():
         heading_text = ft.Text(
             value=element.text, size=HTML.HEADINGS_TEXT_SIZE[element.name]
         )
         return heading_text
-    elif element.name == "span":
-        # Map <span> to ft.Text
-        text = ft.Text(value=element.text)
-        return text
     elif element.name == "p":
         # Map <p> to ft.Text within ft.Container
         paragraph = ft.Container(content=ft.Text(value=element.text))
@@ -121,11 +118,15 @@ def parse_html_to_flet(element):
         # Map <img> to ft.Image with a source URL
         image = ft.Image(src=element.get("src"))
         return image
+
     elif element.name == "ul" or element.name == "ol":
         # Map <ul> and <ol> to ft.Column or ft.Row with ft.Text elements
         list_container = ft.Column() if element.name == "ul" else ft.Row()
         for li in element.find_all("li"):
-            list_item = ft.Text(value=li.text)
+            list_item = ft.ListTile(
+                title=ft.Text(li.text), leading=ft.Text("•", size=20)
+            )
+
             list_container.controls.append(list_item)
         return list_container
     # Add more mappings for other HTML elements
