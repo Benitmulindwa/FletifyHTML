@@ -92,6 +92,7 @@ def parse_html_to_flet(element):
 
     table = element.find("table", border="1")
     flet_table = ft.DataTable(columns=[], rows=[])
+
     if table != None:
         for row in table.find_all("tr"):
             headers = row.find_all("th")
@@ -101,13 +102,12 @@ def parse_html_to_flet(element):
                     header_text = headers[i].text
                     flet_table.columns.append(ft.DataColumn(ft.Text(header_text)))
 
-            # if columns != []:
-            #     for i in range(len(columns)):
-            #         cell_text = columns[i].text
-
-            #         flet_table.rows.append(
-            #             ft.DataRow(cells=[ft.DataCell(ft.Text(cell_text))])
-            #         )
+            if columns != []:
+                data_cells = []
+                for i in range(len(columns)):
+                    cell_text = columns[i].text
+                    data_cells.append(ft.DataCell(ft.Text(cell_text)))
+                flet_table.rows.append(ft.DataRow(cells=data_cells))
 
         return flet_table
 
@@ -258,6 +258,7 @@ def parse_html_to_flet(element):
 def parse_html_table_to_flet(element):
     table = element.find("table", border="1")
     flet_table = ft.DataTable(columns=[], rows=[])
+
     if table != None:
         for row in table.find_all("tr"):
             headers = row.find_all("th")
@@ -267,13 +268,12 @@ def parse_html_table_to_flet(element):
                     header_text = headers[i].text
                     flet_table.columns.append(ft.DataColumn(ft.Text(header_text)))
 
-            # if columns != []:
-            #     for i in range(len(columns)):
-            #         cell_text = columns[i].text
-
-            #         flet_table.rows.append(
-            #             ft.DataRow(cells=[ft.DataCell(ft.Text(cell_text))])
-            #         )
+            if columns != []:
+                data_cells = []
+                for i in range(len(columns)):
+                    cell_text = columns[i].text
+                    data_cells.append(ft.DataCell(ft.Text(cell_text)))
+                flet_table.rows.append(ft.DataRow(cells=data_cells))
 
         return flet_table
 
