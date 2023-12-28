@@ -212,7 +212,13 @@ def parse_html_to_flet(element):
                 )
             ]
         )
-
+    elif element.name == "code":
+        return ft.Markdown(
+            element.text,
+            selectable=True,
+            extension_set="gitHubWeb",
+            code_theme="atom-one-dark",
+        )
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()

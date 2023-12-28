@@ -13,6 +13,14 @@ html_content = """
             <strong>This is a STRONG text</strong>
             <p>This is a line.<b>This is a new line</b> la suite.</p>
 
+            
+            <code>
+                // This is an example of a code block
+                function greet() {
+                    console.log("Hello, World!");
+                }
+            </code>
+
             <ul>
                 <li>Item 1</li>
                 <li>Item 2</li>
