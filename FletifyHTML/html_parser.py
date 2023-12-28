@@ -89,7 +89,7 @@ class HTML:
 
 def parse_html_to_flet(element):
     if element.name == "div":
-        style = get_style(element)
+        style = get_style(element, is_a_mapping=True)
         # Map <div> to ft.Column
         main_container = ft.Container(content=ft.Column([]), **style)
         for child in element.children:
@@ -202,8 +202,7 @@ def parse_html_to_flet(element):
         return underlined_text
     # mark Tag
     elif element.name == "mark":
-        if element.get(HTML.Attrs.STYLE):
-            style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))
+        style_props = get_style(element, is_a_mapping=True)
 
         return ft.Text(
             spans=[
@@ -298,10 +297,10 @@ def parse_inline_styles(style_string):
     return style_properties
 
 
-def get_style(element):
+def get_style(element, is_a_mapping: bool = False):
     if element.get(HTML.Attrs.STYLE):
         style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))
-        _style = style_props if element.name == "div" else ft.TextStyle(**style_props)
+        _style = style_props if is_a_mapping else ft.TextStyle(**style_props)
 
     else:
         _style = {}
