@@ -110,13 +110,8 @@ def parse_html_to_flet(element):
         return heading_text
     # Paragraph tag
     elif element.name == "p":
-        if element.get(HTML.Attrs.STYLE):
-            style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))
-            style = ft.TextStyle(**style_props)
-
-        else:
-            style = None
         # Map <p> to ft.Text within ft.Row
+        style = get_style(element)
         paragraph = ft.Row([ft.Text(spans=[ft.TextSpan(element.text, style=style)])])
 
         # Support for nested tags inside the <p> tag ##STILL NEED IMPROVEMENTS
@@ -236,6 +231,10 @@ def parse_html_to_flet(element):
         return container
 
 
+# ____________________________________________________________________________________________________________________________________
+# Parser function for html tables
+
+
 def html_table_to_flet(element, container):
     table = element.find("table", border="1")
     flet_table = ft.DataTable(columns=[], rows=[])
@@ -258,7 +257,9 @@ def html_table_to_flet(element, container):
         container.controls.append(flet_table)
 
 
-# ____________________________________________________________________
+# ___________________________________________________________________________________________________________________________________
+# Associate html inline styles to the corresponding flet style properties
+# ____________________________________________________________________________________________________________________________________
 html_to_flet_style_mapping = {
     "color": "color",
     "background-color": "bgcolor",
@@ -294,3 +295,13 @@ def parse_inline_styles(style_string):
                     style_properties["decoration"] = deco_values[property_value]
 
     return style_properties
+
+
+def get_style(element):
+    if element.get(HTML.Attrs.STYLE):
+        style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))
+        _style = ft.TextStyle(**style_props)
+
+    else:
+        _style = None
+    return _style
