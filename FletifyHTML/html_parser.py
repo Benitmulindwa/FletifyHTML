@@ -88,9 +88,29 @@ class HTML:
 
 
 def parse_html_to_flet(element):
-    parse_html_table_to_flet(element)
-    # for row in table.find("tr"):
-    #     print(row)
+    # parse_html_table_to_flet(element)
+
+    table = element.find("table", border="1")
+    flet_table = ft.DataTable(columns=[], rows=[])
+    if table != None:
+        for row in table.find_all("tr"):
+            headers = row.find_all("th")
+            columns = row.find_all("td")
+            if headers != []:
+                for i in range(len(headers)):
+                    header_text = headers[i].text
+                    flet_table.columns.append(ft.DataColumn(ft.Text(header_text)))
+
+            # if columns != []:
+            #     for i in range(len(columns)):
+            #         cell_text = columns[i].text
+
+            #         flet_table.rows.append(
+            #             ft.DataRow(cells=[ft.DataCell(ft.Text(cell_text))])
+            #         )
+
+        return flet_table
+
     if element.name == "div":
         # Map <div> to ft.Column
         container = ft.Column([])
@@ -237,50 +257,25 @@ def parse_html_to_flet(element):
 
 def parse_html_table_to_flet(element):
     table = element.find("table", border="1")
-
+    flet_table = ft.DataTable(columns=[], rows=[])
     if table != None:
         for row in table.find_all("tr"):
             headers = row.find_all("th")
             columns = row.find_all("td")
             if headers != []:
-                # print(len(headers))
-                print(i for i in range(len(headers)))
-            if columns != []:
-                print(columns)
+                for i in range(len(headers)):
+                    header_text = headers[i].text
+                    flet_table.columns.append(ft.DataColumn(ft.Text(header_text)))
 
+            # if columns != []:
+            #     for i in range(len(columns)):
+            #         cell_text = columns[i].text
 
-#     ft.DataTable(
-#         columns=[
-#             ft.DataColumn(ft.Text("First name")),
-#             ft.DataColumn(ft.Text("Last name")),
-#             ft.DataColumn(ft.Text("Age"), numeric=True),
-#         ],
-#         rows=[
-#             ft.DataRow(
-#                 cells=[
-#                     ft.DataCell(ft.Text("John")),
-#                     ft.DataCell(ft.Text("Smith")),
-#                     ft.DataCell(ft.Text("43")),
-#                 ],
-#             ),
-#             ft.DataRow(
-#                 cells=[
-#                     ft.DataCell(ft.Text("Jack")),
-#                     ft.DataCell(ft.Text("Brown")),
-#                     ft.DataCell(ft.Text("19")),
-#                 ],
-#             ),
-#             ft.DataRow(
-#                 cells=[
-#                     ft.DataCell(ft.Text("Alice")),
-#                     ft.DataCell(ft.Text("Wong")),
-#                     ft.DataCell(ft.Text("25")),
-#                 ],
-#             ),
-#         ],
-#     )
+            #         flet_table.rows.append(
+            #             ft.DataRow(cells=[ft.DataCell(ft.Text(cell_text))])
+            #         )
 
-#     return flet_table
+        return flet_table
 
 
 # ____________________________________________________________________
