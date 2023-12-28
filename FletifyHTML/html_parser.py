@@ -88,22 +88,19 @@ class HTML:
 
 
 def parse_html_to_flet(element):
-    # parse_html_table_to_flet(element)
-    container = ft.Column([])
-
     if element.name == "div":
         # Map <div> to ft.Column
-
+        main_container = ft.Column([])
         for child in element.children:
             if child.name:
                 # If there's a table,
                 if child.name == "table":
                     # Call "html_table_to_flet()" function to display the table
-                    html_table_to_flet(element, container)
+                    html_table_to_flet(element, main_container)
                 # Recursively parse child elements
                 child_flet = parse_html_to_flet(child)
-                container.controls.append(child_flet)
-        return container
+                main_container.controls.append(child_flet)
+        return main_container
 
     # Heading tags
     elif element.name in HTML.HEADINGS_TEXT_SIZE.keys():
