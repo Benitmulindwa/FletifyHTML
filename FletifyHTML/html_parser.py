@@ -88,6 +88,9 @@ class HTML:
 
 
 def parse_html_to_flet(element):
+    parse_html_table_to_flet(element)
+    # for row in table.find("tr"):
+    #     print(row)
     if element.name == "div":
         # Map <div> to ft.Column
         container = ft.Column([])
@@ -97,6 +100,7 @@ def parse_html_to_flet(element):
                 child_flet = parse_html_to_flet(child)
                 container.controls.append(child_flet)
         return container
+
     # Heading tags
     elif element.name in HTML.HEADINGS_TEXT_SIZE.keys():
         heading_text = ft.Text(
@@ -212,6 +216,7 @@ def parse_html_to_flet(element):
                 )
             ]
         )
+    # Code Tag
     elif element.name == "code":
         return ft.Markdown(
             element.text,
@@ -219,6 +224,7 @@ def parse_html_to_flet(element):
             extension_set="gitHubWeb",
             code_theme="atom-one-dark",
         )
+
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()
@@ -227,6 +233,54 @@ def parse_html_to_flet(element):
                 child_flet = parse_html_to_flet(child)
                 container.content = child_flet
         return container
+
+
+def parse_html_table_to_flet(element):
+    table = element.find("table", border="1")
+
+    if table != None:
+        for row in table.find_all("tr"):
+            headers = row.find_all("th")
+            columns = row.find_all("td")
+            if headers != []:
+                # print(len(headers))
+                print(i for i in range(len(headers)))
+            if columns != []:
+                print(columns)
+
+
+#     ft.DataTable(
+#         columns=[
+#             ft.DataColumn(ft.Text("First name")),
+#             ft.DataColumn(ft.Text("Last name")),
+#             ft.DataColumn(ft.Text("Age"), numeric=True),
+#         ],
+#         rows=[
+#             ft.DataRow(
+#                 cells=[
+#                     ft.DataCell(ft.Text("John")),
+#                     ft.DataCell(ft.Text("Smith")),
+#                     ft.DataCell(ft.Text("43")),
+#                 ],
+#             ),
+#             ft.DataRow(
+#                 cells=[
+#                     ft.DataCell(ft.Text("Jack")),
+#                     ft.DataCell(ft.Text("Brown")),
+#                     ft.DataCell(ft.Text("19")),
+#                 ],
+#             ),
+#             ft.DataRow(
+#                 cells=[
+#                     ft.DataCell(ft.Text("Alice")),
+#                     ft.DataCell(ft.Text("Wong")),
+#                     ft.DataCell(ft.Text("25")),
+#                 ],
+#             ),
+#         ],
+#     )
+
+#     return flet_table
 
 
 # ____________________________________________________________________
