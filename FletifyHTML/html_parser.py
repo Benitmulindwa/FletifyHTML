@@ -89,33 +89,17 @@ class HTML:
 
 def parse_html_to_flet(element):
     # parse_html_table_to_flet(element)
-
-    table = element.find("table", border="1")
-    flet_table = ft.DataTable(columns=[], rows=[])
-
-    if table != None:
-        for row in table.find_all("tr"):
-            headers = row.find_all("th")
-            columns = row.find_all("td")
-            if headers != []:
-                for i in range(len(headers)):
-                    header_text = headers[i].text
-                    flet_table.columns.append(ft.DataColumn(ft.Text(header_text)))
-
-            if columns != []:
-                data_cells = []
-                for i in range(len(columns)):
-                    cell_text = columns[i].text
-                    data_cells.append(ft.DataCell(ft.Text(cell_text)))
-                flet_table.rows.append(ft.DataRow(cells=data_cells))
-
-        return flet_table
+    container = ft.Column([])
 
     if element.name == "div":
         # Map <div> to ft.Column
-        container = ft.Column([])
+
         for child in element.children:
             if child.name:
+                # If there's a table,
+                if child.name == "table":
+                    # Call "html_table_to_flet()" function to display the table
+                    html_table_to_flet(element, container)
                 # Recursively parse child elements
                 child_flet = parse_html_to_flet(child)
                 container.controls.append(child_flet)
@@ -255,7 +239,7 @@ def parse_html_to_flet(element):
         return container
 
 
-def parse_html_table_to_flet(element):
+def html_table_to_flet(element, container):
     table = element.find("table", border="1")
     flet_table = ft.DataTable(columns=[], rows=[])
 
@@ -274,8 +258,7 @@ def parse_html_table_to_flet(element):
                     cell_text = columns[i].text
                     data_cells.append(ft.DataCell(ft.Text(cell_text)))
                 flet_table.rows.append(ft.DataRow(cells=data_cells))
-
-        return flet_table
+        container.controls.append(flet_table)
 
 
 # ____________________________________________________________________
