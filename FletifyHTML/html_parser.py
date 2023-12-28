@@ -151,9 +151,15 @@ def parse_html_to_flet(element):
             ]
         )
         return link
+
+    # Image tag
     elif element.name == "img":
+        img_style = get_style(element, is_a_mapping=True)
+
         # Map <img> to ft.Image with a source URL
-        image = ft.Image(src=element.get(HTML.Attrs.SRC))
+        image = ft.Container(
+            content=ft.Image(src=element.get(HTML.Attrs.SRC)), **img_style
+        )
         return image
 
     # HTML lists
@@ -263,8 +269,8 @@ html_to_flet_style_mapping = {
     "text-decoration": "decoration",
     "padding": "padding",
     "margin": "margin",
-    "border": "border",
     "border-radius": "border_radius",
+    "border": "border",
     "width": "width",
     "height": "height",
 }
@@ -289,10 +295,17 @@ def parse_inline_styles(style_string):
                     "overline": ft.TextDecoration.OVERLINE,
                 }
 
-                style_properties[property_name] = property_value
+                style_properties[property_name] = (
+                    int(property_value) if property_value.isdigit() else property_value
+                )
                 # handle decoration property
                 if property_name == "decoration" and property_value in deco_values:
                     style_properties["decoration"] = deco_values[property_value]
+                elif property_name == "border" and property_value != None:
+                    property_value = property_value.split(" ")
+                    style_properties["border"] = ft.border.all(
+                        property_value[0], property_value[-1]
+                    )
 
     return style_properties
 
