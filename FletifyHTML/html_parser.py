@@ -89,8 +89,9 @@ class HTML:
 
 def parse_html_to_flet(element):
     if element.name == "div":
+        style = get_style(element)
         # Map <div> to ft.Column
-        main_container = ft.Column([])
+        main_container = ft.Container(content=ft.Column([]), **style)
         for child in element.children:
             if child.name:
                 # If there's a table,
@@ -99,7 +100,7 @@ def parse_html_to_flet(element):
                     html_table_to_flet(element, main_container)
                 # Recursively parse child elements
                 child_flet = parse_html_to_flet(child)
-                main_container.controls.append(child_flet)
+                main_container.content.controls.append(child_flet)
         return main_container
 
     # Heading tags
@@ -254,7 +255,7 @@ def html_table_to_flet(element, container):
                     cell_text = columns[i].text
                     data_cells.append(ft.DataCell(ft.Text(cell_text)))
                 flet_table.rows.append(ft.DataRow(cells=data_cells))
-        container.controls.append(flet_table)
+        container.content.controls.append(flet_table)
 
 
 # ___________________________________________________________________________________________________________________________________
@@ -300,8 +301,8 @@ def parse_inline_styles(style_string):
 def get_style(element):
     if element.get(HTML.Attrs.STYLE):
         style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))
-        _style = ft.TextStyle(**style_props)
+        _style = style_props if element.name == "div" else ft.TextStyle(**style_props)
 
     else:
-        _style = None
+        _style = {}
     return _style
