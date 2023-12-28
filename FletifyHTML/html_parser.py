@@ -53,12 +53,6 @@ class HTML:
         "font-style",
         "text-align",
         "text-decoration",
-        "padding",
-        "margin",
-        "border",
-        "border-radius",
-        "width",
-        "height",
         "display",
         "flex",
         "justify-content",
@@ -267,6 +261,12 @@ html_to_flet_style_mapping = {
     "font-size": "size",
     "text-align": "text_align",
     "text-decoration": "decoration",
+    "padding": "padding",
+    "margin": "margin",
+    "border": "border",
+    "border-radius": "border_radius",
+    "width": "width",
+    "height": "height",
 }
 
 
