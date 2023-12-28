@@ -8,7 +8,7 @@ html_content = """
             <p style="background-color: red; color:black; font-size:30">This is a paragraph.</p>
             <p style="text-decoration: underline; background-color: blue">This is underlined text.</p>
             <p style="text-decoration: overline;">This has an overline.</p>
-            <mark>milk vggvgvg</mark>
+            <mark style="background-color:green;">milk vggvgvg</mark>
             <b>This is a bold text</b>
             <strong>This is a STRONG text</strong>
             <p>This is a line.<b>This is a new line</b> la suite.</p>

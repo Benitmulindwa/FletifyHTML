@@ -119,11 +119,29 @@ def parse_html_to_flet(element):
         if element.children:
             for child in element.children:
                 if child.name:
+                    # Parse the nested element
                     p_child = parse_html_to_flet(child)
+
+                    # Find the start index of nested element's text
+                    start_index = paragraph.controls[0].spans[0].text.find(child.text)
+
+                    # Remove nested element's text from the main paragraph text
                     paragraph.controls[0].spans[0].text = (
                         paragraph.controls[0].spans[0].text.replace(child.text, "")
                     )
-                    paragraph.controls.append(p_child)
+                    # Retrieve the rest of the main paragraph text
+                    rest_ = paragraph.controls[0].spans[0].text[start_index:]
+
+                    # Remove the rest of the main paragraph text after the start index, to get the text before the nested element
+                    paragraph.controls[0].spans[0].text = (
+                        paragraph.controls[0].spans[0].text[:start_index]
+                    )
+                    # Create a new text element for the rest of the main paragraph text
+                    rest_text = ft.Text(spans=[ft.TextSpan(rest_, style=style)])
+
+                    # Add the nested element and the rest of the paragraph text to the MainParagraph
+                    paragraph.controls.extend([p_child, rest_text])
+
         return paragraph
     # Link tag
     elif element.name == "a":
