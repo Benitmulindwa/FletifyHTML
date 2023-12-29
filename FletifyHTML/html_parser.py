@@ -4,7 +4,7 @@ import flet as ft
 class HTML:
     # ----------------------------------------------------------------------------------------------
     """
-    supported HTML tags and attributes
+    Supported HTML tags and attributes
     """
 
     class Tags:
@@ -269,10 +269,10 @@ html_to_flet_style_mapping = {
     "font-size": "size",
     "text-align": "text_align",
     "text-decoration": "decoration",
-    "padding": "padding",
     "display": "display",
     "justify-content": "alignment",
     "margin": "margin",
+    "padding": "padding",
     "border-radius": "border_radius",
     "border": "border",
     "width": "width",
@@ -293,12 +293,13 @@ def parse_inline_styles(style_string):
             property_name = html_to_flet_style_mapping.get(property_name, None)
 
             if property_name:
+                # Map html text-decoration values to their corresponding Flet decoration values
                 deco_values = {
                     "underline": ft.TextDecoration.UNDERLINE,
                     "line-through": ft.TextDecoration.LINE_THROUGH,
                     "overline": ft.TextDecoration.OVERLINE,
                 }
-
+                # Map html justify-content values to their corresponding Flet alignment values
                 alignment_values = {
                     "flex-start": ft.MainAxisAlignment.START,
                     "center": ft.MainAxisAlignment.CENTER,
@@ -324,8 +325,8 @@ def parse_inline_styles(style_string):
                     property_name == "alignment" and property_value in alignment_values
                 ):
                     style_properties["alignment"] = alignment_values[property_value]
-    style_properties.pop("display", None)
 
+    style_properties.pop("display", None)
     return style_properties
 
 
@@ -336,8 +337,7 @@ def get_style(element, is_a_mapping: bool = False):
         if "alignment" in style_props:
             val = style_props.pop("alignment")
             alignment_props = {"alignment": val}
-        # else:
-        #     alignment_props = {}
+
         _style = style_props if is_a_mapping else ft.TextStyle(**style_props)
 
     else:
