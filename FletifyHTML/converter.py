@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-import flet as ft
 from FletifyHTML.parser import parse_html_to_flet
 
 
