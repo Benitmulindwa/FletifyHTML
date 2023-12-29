@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from FletifyHTML.parser import parse_html_to_flet
+from fletify.parser import parse_html_to_flet
 
 
 def convert_html_to_flet(html_content):

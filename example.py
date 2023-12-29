@@ -1,4 +1,4 @@
-from FletifyHTML.converter import convert_html_to_flet
+from fletify.converter import convert_html_to_flet
 import flet as ft
 
 
