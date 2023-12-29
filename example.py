@@ -37,7 +37,7 @@ html_content = """
             </ul>
             <a href="https://example.com">Visit Example</a>
             <img style="width: 200; height: 200; background-color:yellow; border-radius: 6; border: 2 solid #336699;" src="https://picsum.photos/200/200?10" alt="Example Image">
-            <div style="display: flex; justify-content: center;">
+            <div style="display: flex; justify-content: flex-end;">
                 <div style="width: 100; height: 100; background-color: lightblue; margin: 5;"></div>
                 <div style="width: 100; height: 100; background-color: lightblue; margin: 5;"></div>
                 <div style="width: 100; height: 100; background-color: lightblue; margin: 5;"></div>
