@@ -1,4 +1,5 @@
 import flet as ft
+from bs4 import NavigableString
 
 
 class HTML:
@@ -105,58 +106,28 @@ def parse_html_to_flet(element):
         return heading_text
     # Paragraph tag
     elif element.name == HTML.Tags.P:
-        # Map <p> to ft.Text within ft.Row
         style = get_style(element)
-        paragraph = ft.Row([ft.Text(spans=[ft.TextSpan(element.text, style=style[0])])])
+        # Map <p> to ft.Text within ft.Row
+        paragraph = ft.Row([])
 
-        # Support for nested tags inside the <p> tag ##STILL NEED IMPROVEMENTS
-        list_children: list = []
-        accumulated_length = 0
+        # Support for nested tags inside the <p> tag ##STILL NEED IMPROVEMENTS##
         if element.children:
             for child in element.children:
-                list_children.append(child.text)
                 if child.name:
                     # Parse the nested element
                     p_child = parse_html_to_flet(child)
-                    # print(p_child.value)
+                    paragraph.controls.append(p_child)
 
-                    # Find the start index of nested element's text
-                    start_index = paragraph.controls[0].spans[0].text.find(child.text)
-
-                    # Remove nested element's text from the main paragraph text
-                    paragraph.controls[0].spans[0].text = (
-                        paragraph.controls[0].spans[0].text.replace(child.text, "")
+                elif isinstance(child, NavigableString):
+                    # Handle text content directly within the <p> tag
+                    text_content = child.text
+                    text_element = ft.Text(
+                        spans=[ft.TextSpan(text_content, style=style[0])]
                     )
-                    if start_index != -1:
-                        accumulated_length += start_index + len(list_children)
-                        # Retrieve the rest of the main paragraph text
-                        rest_ = (
-                            paragraph.controls[0]
-                            .spans[0]
-                            .text[start_index:][:accumulated_length]
-                        )
-                        # print(rest_)
-                        # Remove the rest of the main paragraph text after the start index, to get the text before the nested element
-                        paragraph.controls[0].spans[0].text = (
-                            paragraph.controls[0].spans[0].text[:start_index]
-                        )
-                        if p_child.value not in paragraph.controls[0].spans[0].text:
-                            # Create a new text element for the rest of the main paragraph text
-                            nested_text = ft.Text(
-                                spans=[ft.TextSpan(rest_, style=style[0])]
-                            )
-                        else:
-                            nested_text = ""
-                            # print(nested_text.spans)
-                            # print(p_child)
-                            # Add the nested element and the rest of the paragraph text to the MainParagraph
-                        paragraph.controls.extend([p_child, nested_text])
-                    # print(rest_text.spans[0].text)
-                    # print(paragraph.controls[0].spans[0].text)
-        remaining_text = (
-            paragraph.controls[0].spans[0].text[accumulated_length:].strip()
-        )
-        # print(remaining_text)
+
+                    # Add the text_element to the paragraph
+                    paragraph.controls.append(text_element)
+
         return paragraph
     # Link tag
     elif element.name == HTML.Tags.A:

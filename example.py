@@ -11,7 +11,7 @@ html_content = """
             <mark style="background-color:green;">milk vggvgvg</mark>
             <b>This is a bold text</b>
             <strong>This is a STRONG text</strong>
-            <p>This is a line.<b>This is a new line</b> this is la suite.<span style="color:pink;">this text is in span1</span>  <span>this text is in span2</span>autres choses</p>
+            <p>This is free text.<b>This is a bold text </b> this is la suite.<span style="color:pink;">this text is in span1</span><span style="color:green;">this text is in span2</span>autres choses</p>
 
             <table border="1">
             <tr>
