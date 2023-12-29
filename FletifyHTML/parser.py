@@ -220,6 +220,7 @@ def parse_html_to_flet(element):
     elif element.name == HTML.Tags.SPAN:
         span_style = get_style(element)
         return ft.Text(spans=[ft.TextSpan(element.text, style=span_style[0])])
+
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()
