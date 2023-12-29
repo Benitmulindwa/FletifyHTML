@@ -66,12 +66,12 @@ class HTML:
     TEXT_STYLE_DECORATION = ["underline", "line-through", "overline"]
 
     HEADINGS_TEXT_SIZE = {
-        "h1": 32,
-        "h2": 24,
-        "h3": 18,
-        "h4": 16,
-        "h5": 13,
-        "h6": 10,
+        Tags.H1: 32,
+        Tags.H2: 24,
+        Tags.H3: 18,
+        Tags.H4: 16,
+        Tags.H5: 13,
+        Tags.H6: 10,
     }
 
 
@@ -309,6 +309,7 @@ def parse_inline_styles(style_string):
                     "space-evenly": ft.MainAxisAlignment.SPACE_EVENLY,
                 }
 
+                # Convert property_value to integer if it's a digit otherwise, keep the original value
                 style_properties[property_name] = (
                     int(property_value) if property_value.isdigit() else property_value
                 )
