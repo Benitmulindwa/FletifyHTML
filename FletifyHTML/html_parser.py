@@ -7,34 +7,33 @@ class HTML:
     supported HTML tags and attributes
     """
 
-    html_tags = [
-        "ul",
-        "ol",
-        "li",
-        "img",
-        "a",
-        "b",
-        "strong",
-        "i",
-        "em",
-        "u",
-        "mark",
-        "span",
-        "div",
-        "p",
-        "pre",
-        "code",
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6",
-        "table",
-        "tr",
-        "th",
-        "td",
-    ]
+    class Tags:
+        UL = "ul"
+        OL = "ol"
+        LI = "li"
+        IMG = "img"
+        A = "a"
+        B = ("b",)
+        STRONG = "strong"
+        I = "i"
+        EM = "em"
+        U = "u"
+        MARK = "mark"
+        SPAN = "span"
+        DIVI = "div"
+        P = "p"
+        PRE = "pre"
+        CODE = "code"
+        H1 = "h1"
+        H2 = "h2"
+        H3 = "h3"
+        H4 = "h4"
+        H5 = "h5"
+        H6 = "h6"
+        TABLE = "table"
+        TR = "tr"
+        TH = "th"
+        TD = "td"
 
     class Attrs:
         STYLE = "style"
