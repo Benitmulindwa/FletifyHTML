@@ -80,7 +80,7 @@ class HTML:
 def parse_html_to_flet(element):
     if element.name == "div":
         style, align_style = get_style(element, is_a_mapping=True)
-        print(align_style)
+
         # Map <div> to ft.Column
         main_container = ft.Container(
             content=ft.Row([], **align_style)
@@ -90,7 +90,7 @@ def parse_html_to_flet(element):
         )
         for child in element.children:
             if child.name:
-                # If there's a table,
+                # If there's a table ,
                 if child.name == "table":
                     # Call "html_table_to_flet()" function to display the table
                     html_table_to_flet(element, main_container)
