@@ -1,5 +1,5 @@
-from fletify.converter import convert_html_to_flet
 import flet as ft
+from fletify import FletifyHTML
 
 
 html_content = """
@@ -50,13 +50,13 @@ html_content = """
         </div>
         </div>
     """
-flet_code = convert_html_to_flet(html_content)
+flet_code = FletifyHTML(html_content)
 
 
 def main(page: ft.Page):
     page.scroll = "always"
 
-    page.add(flet_code)
+    page.add(flet_code.get_flet())
     page.update()
 
 
