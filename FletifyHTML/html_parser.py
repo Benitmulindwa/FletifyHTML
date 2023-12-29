@@ -8,21 +8,20 @@ class HTML:
     """
 
     class Tags:
+        IMG = "img"
         UL = "ul"
         OL = "ol"
         LI = "li"
-        IMG = "img"
         A = "a"
-        B = ("b",)
+        B = "b"
         STRONG = "strong"
         I = "i"
         EM = "em"
         U = "u"
         MARK = "mark"
         SPAN = "span"
-        DIVI = "div"
+        DIV = "div"
         P = "p"
-        PRE = "pre"
         CODE = "code"
         H1 = "h1"
         H2 = "h2"
@@ -77,7 +76,7 @@ class HTML:
 
 
 def parse_html_to_flet(element):
-    if element.name == "div":
+    if element.name == HTML.Tags.DIV:
         style, align_style = get_style(element, is_a_mapping=True)
 
         # Map <div> to ft.Column
@@ -90,7 +89,7 @@ def parse_html_to_flet(element):
         for child in element.children:
             if child.name:
                 # If there's a table ,
-                if child.name == "table":
+                if child.name == HTML.Tags.TABLE:
                     # Call "html_table_to_flet()" function to display the table
                     html_table_to_flet(element, main_container)
                 # Recursively parse child elements
@@ -105,7 +104,7 @@ def parse_html_to_flet(element):
         )
         return heading_text
     # Paragraph tag
-    elif element.name == "p":
+    elif element.name == HTML.Tags.P:
         # Map <p> to ft.Text within ft.Row
         style = get_style(element)
         paragraph = ft.Row([ft.Text(spans=[ft.TextSpan(element.text, style=style[0])])])
@@ -140,7 +139,7 @@ def parse_html_to_flet(element):
 
         return paragraph
     # Link tag
-    elif element.name == "a":
+    elif element.name == HTML.Tags.A:
         # Map <a> to ft.Text with a URL
         link = ft.Text(
             spans=[
@@ -154,7 +153,7 @@ def parse_html_to_flet(element):
         return link
 
     # Image tag
-    elif element.name == "img":
+    elif element.name == HTML.Tags.IMG:
         img_style, _ = get_style(element, is_a_mapping=True)
 
         # Map <img> to ft.Image with a source URL
@@ -165,14 +164,14 @@ def parse_html_to_flet(element):
 
     # HTML lists
 
-    elif element.name == "ul" or element.name == "ol":
-        # Map <ul> and <ol> to ft.Column or ft.Row with ft.Text elements
+    elif element.name == HTML.Tags.UL or element.name == HTML.Tags.OL:
+        # Map <ul> and <ol> to ft.Column
         list_container = ft.Column(spacing=0)
 
-        for i, li in enumerate(element.find_all("li")):
+        for i, li in enumerate(element.find_all(HTML.Tags.LI)):
             _leading = (
                 ft.Text("•", size=20)
-                if element.name == "ul"
+                if element.name == HTML.Tags.UL
                 else ft.Text(f"{i+1}", size=16)
             )
             list_item = ft.ListTile(title=ft.Text(li.text), leading=_leading)
@@ -180,18 +179,20 @@ def parse_html_to_flet(element):
             list_container.controls.append(list_item)
         return list_container
     # Bold Tags
-    elif element.name == "b" or element.name == "strong":
+    elif element.name == HTML.Tags.B or element.name == HTML.Tags.STRONG:
         bold_text = ft.Text(
             value=element.text,
-            weight=ft.FontWeight.BOLD if element.name == "b" else ft.FontWeight.W_900,
+            weight=ft.FontWeight.BOLD
+            if element.name == HTML.Tags.B
+            else ft.FontWeight.W_900,
         )
         return bold_text
     # Italic Tag
-    elif element.name == "i" or element.name == "em":
+    elif element.name == HTML.Tags.I or element.name == HTML.Tags.EM:
         italic_text = ft.Text(element.text, italic=True)
         return italic_text
     # Underline Tag
-    elif element.name == "u":
+    elif element.name == HTML.Tags.U:
         underlined_text = ft.Text(
             spans=[
                 ft.TextSpan(
@@ -202,7 +203,7 @@ def parse_html_to_flet(element):
         )
         return underlined_text
     # mark Tag
-    elif element.name == "mark":
+    elif element.name == HTML.Tags.MARK:
         style_props, _ = get_style(element, is_a_mapping=True)
 
         return ft.Text(
@@ -214,7 +215,7 @@ def parse_html_to_flet(element):
             ]
         )
     # Code Tag
-    elif element.name == "code":
+    elif element.name == HTML.Tags.CODE:
         return ft.Markdown(
             element.text,
             selectable=True,
