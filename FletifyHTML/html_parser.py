@@ -53,10 +53,6 @@ class HTML:
         "font-style",
         "text-align",
         "text-decoration",
-        "display",
-        "flex",
-        "justify-content",
-        "align-items",
         "box-shadow",
         "line-height",
         "letter-spacing",
@@ -83,9 +79,15 @@ class HTML:
 
 def parse_html_to_flet(element):
     if element.name == "div":
-        style = get_style(element, is_a_mapping=True)
+        style, align_style = get_style(element, is_a_mapping=True)
+        # print(style)
         # Map <div> to ft.Column
-        main_container = ft.Container(content=ft.Column([]), **style)
+        main_container = ft.Container(
+            content=ft.Row([])
+            if "alignment" in style
+            else ft.Column([], **align_style),
+            **style,
+        )
         for child in element.children:
             if child.name:
                 # If there's a table,
@@ -107,7 +109,7 @@ def parse_html_to_flet(element):
     elif element.name == "p":
         # Map <p> to ft.Text within ft.Row
         style = get_style(element)
-        paragraph = ft.Row([ft.Text(spans=[ft.TextSpan(element.text, style=style)])])
+        paragraph = ft.Row([ft.Text(spans=[ft.TextSpan(element.text, style=style[0])])])
 
         # Support for nested tags inside the <p> tag ##STILL NEED IMPROVEMENTS
 
@@ -132,7 +134,7 @@ def parse_html_to_flet(element):
                         paragraph.controls[0].spans[0].text[:start_index]
                     )
                     # Create a new text element for the rest of the main paragraph text
-                    rest_text = ft.Text(spans=[ft.TextSpan(rest_, style=style)])
+                    rest_text = ft.Text(spans=[ft.TextSpan(rest_, style=style[0])])
 
                     # Add the nested element and the rest of the paragraph text to the MainParagraph
                     paragraph.controls.extend([p_child, rest_text])
@@ -154,7 +156,7 @@ def parse_html_to_flet(element):
 
     # Image tag
     elif element.name == "img":
-        img_style = get_style(element, is_a_mapping=True)
+        img_style, _ = get_style(element, is_a_mapping=True)
 
         # Map <img> to ft.Image with a source URL
         image = ft.Container(
@@ -202,7 +204,7 @@ def parse_html_to_flet(element):
         return underlined_text
     # mark Tag
     elif element.name == "mark":
-        style_props = get_style(element, is_a_mapping=True)
+        style_props, _ = get_style(element, is_a_mapping=True)
 
         return ft.Text(
             spans=[
@@ -268,6 +270,8 @@ html_to_flet_style_mapping = {
     "text-align": "text_align",
     "text-decoration": "decoration",
     "padding": "padding",
+    "display": "display",
+    "justify-content": "horizontal_alignment",
     "margin": "margin",
     "border-radius": "border_radius",
     "border": "border",
@@ -295,26 +299,50 @@ def parse_inline_styles(style_string):
                     "overline": ft.TextDecoration.OVERLINE,
                 }
 
+                alignment_values = {
+                    "flex-start": ft.MainAxisAlignment.START,
+                    "center": ft.MainAxisAlignment.CENTER,
+                    "flex-end": ft.MainAxisAlignment.END,
+                    "space-between": ft.MainAxisAlignment.SPACE_BETWEEN,
+                    "space-around": ft.MainAxisAlignment.SPACE_AROUND,
+                    "space-evenly": ft.MainAxisAlignment.SPACE_EVENLY,
+                }
+
                 style_properties[property_name] = (
                     int(property_value) if property_value.isdigit() else property_value
                 )
                 # handle decoration property
                 if property_name == "decoration" and property_value in deco_values:
                     style_properties["decoration"] = deco_values[property_value]
+                # handle border property
                 elif property_name == "border" and property_value != None:
                     property_value = property_value.split(" ")
                     style_properties["border"] = ft.border.all(
                         property_value[0], property_value[-1]
                     )
+                elif (
+                    property_name == "justify-content"
+                    and property_value in alignment_values
+                ):
+                    style_properties["justify-content"] = alignment_values[
+                        property_value
+                    ]
+    style_properties.pop("display", None)
 
     return style_properties
 
 
 def get_style(element, is_a_mapping: bool = False):
+    alignment_props = {}
     if element.get(HTML.Attrs.STYLE):
         style_props = parse_inline_styles(element.get(HTML.Attrs.STYLE))
+        if "horizontal_alignment" in style_props:
+            val = style_props.pop("horizontal_alignment")
+            alignment_props = {"horizontal_alignment": val}
+        else:
+            alignment_props = {}
         _style = style_props if is_a_mapping else ft.TextStyle(**style_props)
 
     else:
         _style = {}
-    return _style
+    return _style, alignment_props
