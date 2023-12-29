@@ -110,12 +110,15 @@ def parse_html_to_flet(element):
         paragraph = ft.Row([ft.Text(spans=[ft.TextSpan(element.text, style=style[0])])])
 
         # Support for nested tags inside the <p> tag ##STILL NEED IMPROVEMENTS
-
+        list_children: list = []
+        accumulated_length = 0
         if element.children:
             for child in element.children:
+                list_children.append(child.text)
                 if child.name:
                     # Parse the nested element
                     p_child = parse_html_to_flet(child)
+                    # print(p_child.value)
 
                     # Find the start index of nested element's text
                     start_index = paragraph.controls[0].spans[0].text.find(child.text)
@@ -124,19 +127,36 @@ def parse_html_to_flet(element):
                     paragraph.controls[0].spans[0].text = (
                         paragraph.controls[0].spans[0].text.replace(child.text, "")
                     )
-                    # Retrieve the rest of the main paragraph text
-                    rest_ = paragraph.controls[0].spans[0].text[start_index:]
-
-                    # Remove the rest of the main paragraph text after the start index, to get the text before the nested element
-                    paragraph.controls[0].spans[0].text = (
-                        paragraph.controls[0].spans[0].text[:start_index]
-                    )
-                    # Create a new text element for the rest of the main paragraph text
-                    rest_text = ft.Text(spans=[ft.TextSpan(rest_, style=style[0])])
-
-                    # Add the nested element and the rest of the paragraph text to the MainParagraph
-                    paragraph.controls.extend([p_child, rest_text])
-
+                    if start_index != -1:
+                        accumulated_length += start_index + len(list_children)
+                        # Retrieve the rest of the main paragraph text
+                        rest_ = (
+                            paragraph.controls[0]
+                            .spans[0]
+                            .text[start_index:][:accumulated_length]
+                        )
+                        # print(rest_)
+                        # Remove the rest of the main paragraph text after the start index, to get the text before the nested element
+                        paragraph.controls[0].spans[0].text = (
+                            paragraph.controls[0].spans[0].text[:start_index]
+                        )
+                        if p_child.value not in paragraph.controls[0].spans[0].text:
+                            # Create a new text element for the rest of the main paragraph text
+                            nested_text = ft.Text(
+                                spans=[ft.TextSpan(rest_, style=style[0])]
+                            )
+                        else:
+                            nested_text = ""
+                            # print(nested_text.spans)
+                            # print(p_child)
+                            # Add the nested element and the rest of the paragraph text to the MainParagraph
+                        paragraph.controls.extend([p_child, nested_text])
+                    # print(rest_text.spans[0].text)
+                    # print(paragraph.controls[0].spans[0].text)
+        remaining_text = (
+            paragraph.controls[0].spans[0].text[accumulated_length:].strip()
+        )
+        # print(remaining_text)
         return paragraph
     # Link tag
     elif element.name == HTML.Tags.A:
@@ -163,7 +183,6 @@ def parse_html_to_flet(element):
         return image
 
     # HTML lists
-
     elif element.name == HTML.Tags.UL or element.name == HTML.Tags.OL:
         # Map <ul> and <ol> to ft.Column
         list_container = ft.Column(spacing=0)
@@ -178,6 +197,7 @@ def parse_html_to_flet(element):
 
             list_container.controls.append(list_item)
         return list_container
+
     # Bold Tags
     elif element.name == HTML.Tags.B or element.name == HTML.Tags.STRONG:
         bold_text = ft.Text(
@@ -187,10 +207,12 @@ def parse_html_to_flet(element):
             else ft.FontWeight.W_900,
         )
         return bold_text
+
     # Italic Tag
     elif element.name == HTML.Tags.I or element.name == HTML.Tags.EM:
         italic_text = ft.Text(element.text, italic=True)
         return italic_text
+
     # Underline Tag
     elif element.name == HTML.Tags.U:
         underlined_text = ft.Text(
@@ -223,6 +245,10 @@ def parse_html_to_flet(element):
             code_theme="atom-one-dark",
         )
 
+    # Span Tag
+    elif element.name == HTML.Tags.SPAN:
+        span_style = get_style(element)
+        return ft.Text(spans=[ft.TextSpan(element.text, style=span_style[0])])
     else:
         # Default to ft.Container for unrecognized elements
         container = ft.Container()
