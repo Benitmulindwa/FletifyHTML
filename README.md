@@ -20,16 +20,16 @@ fletify = FletifyHTML(html_content)
 # Get the Flet code
 flet_code = fletify.get_flet()
 
-# Display or use the Flet code as needed
 def main(page: ft.Page):
 
+    #Display the output, by adding it on the page 
     page.add(flet_code)
     page.update()
 
 ft.app(target=main)
 ```
 # OutPut:
-![test1](test1.png)
+![test1](test1.PNG)
 
 ## Features
 
