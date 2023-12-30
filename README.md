@@ -3,9 +3,15 @@
 FletifyHTML is a Python package for converting HTML content into Flet code. It allows you to embed HTML code in your Flet app
 
 ## Installation
-
+### (Not avalaible for now,...) 
 ```bash
 pip install fletify
+```
+##Alternative:
+clone the repo and use the `example.py` to test Fletify
+
+```git
+git clone https://Benitmulindwa/FletifyHTML.git
 ```
 ## Usage
 ```python
