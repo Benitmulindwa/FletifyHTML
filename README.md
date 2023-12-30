@@ -38,7 +38,7 @@ For now, **Fletify** support the following HTML tags:
 `img`, `ul`, `ol`, `li`, `a`, `b`, `strong`, `i`, `em`, `u`, `mark`, `span`, `div`, `p`, `code`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `table`, `tr`, `th`, `td`
 Fletify doesn't support CSS style however, it supports inline style using the `style` attribute.
 #### eg:
-```css 
+```html
 <img style="width: 200; height: 200; background-color:yellow; border-radius: 5; border: 3 solid #336699; margin:40" src="https://picsum.photos/200/200?10" alt="Example Image">
 ```
 these are the supported style properties
