@@ -44,15 +44,22 @@ class HTML:
         HEIGHT = "height"
         TYPE = "type"
 
-    style_attributes = [
-        "color",
-        "background-color",
-        "font-family",
-        "font-size",
-        "font-weight",
-        "font-style",
-        "text-align",
-        "text-decoration",
+    TEXT_STYLE_DECORATION = ["underline", "line-through", "overline"]
+
+    HEADINGS_TEXT_SIZE = {
+        Tags.H1: 32,
+        Tags.H2: 24,
+        Tags.H3: 18,
+        Tags.H4: 16,
+        Tags.H5: 13,
+        Tags.H6: 10,
+    }
+
+    ##UPCOMING STYLE ATTRIBUTES
+
+
+"""
+style_attributes = [
         "box-shadow",
         "line-height",
         "letter-spacing",
@@ -64,17 +71,7 @@ class HTML:
         "bottom",
         "left",
     ]
-
-    TEXT_STYLE_DECORATION = ["underline", "line-through", "overline"]
-
-    HEADINGS_TEXT_SIZE = {
-        Tags.H1: 32,
-        Tags.H2: 24,
-        Tags.H3: 18,
-        Tags.H4: 16,
-        Tags.H5: 13,
-        Tags.H6: 10,
-    }
+"""
 
 
 def parse_html_to_flet(element):
