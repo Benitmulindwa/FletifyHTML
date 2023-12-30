@@ -83,7 +83,7 @@ def parse_html_to_flet(element):
 
         # Map <div> to ft.Column
         main_container = ft.Container(
-            content=ft.Row([ft.Column([])], **align_style)
+            content=ft.Row([], **align_style)
             if "alignment" in align_style
             else ft.Column([]),
             **style,
@@ -97,10 +97,7 @@ def parse_html_to_flet(element):
 
                 # Recursively parse child elements
                 child_flet = parse_html_to_flet(child)
-                if "alignment" in align_style:
-                    main_container.content.controls[0].controls.append(child_flet)
-                else:
-                    main_container.content.controls.append(child_flet)
+                main_container.content.controls.append(child_flet)
         return main_container
 
     # Heading tags
