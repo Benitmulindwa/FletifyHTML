@@ -1,5 +1,6 @@
 import flet as ft
-from bs4 import NavigableString
+from bs4 import NavigableString, BeautifulSoup
+import requests
 
 
 class HTML:
@@ -82,7 +83,7 @@ def parse_html_to_flet(element):
 
         # Map <div> to ft.Column
         main_container = ft.Container(
-            content=ft.Row([], **align_style)
+            content=ft.Row([ft.Column([])], **align_style)
             if "alignment" in align_style
             else ft.Column([]),
             **style,
@@ -93,9 +94,13 @@ def parse_html_to_flet(element):
                 if child.name == HTML.Tags.TABLE:
                     # Call "html_table_to_flet()" function to display the table
                     html_table_to_flet(element, main_container)
+
                 # Recursively parse child elements
                 child_flet = parse_html_to_flet(child)
-                main_container.content.controls.append(child_flet)
+                if "alignment" in align_style:
+                    main_container.content.controls[0].controls.append(child_flet)
+                else:
+                    main_container.content.controls.append(child_flet)
         return main_container
 
     # Heading tags

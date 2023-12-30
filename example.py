@@ -4,15 +4,17 @@ from fletify import FletifyHTML
 
 html_content = """
         <div>
+            <div style="display:flex; justify-content:center;">
             <h1>Title</h1>
             <p style="background-color: red; color:black; font-size:30">This is a paragraph.</p>
             <p style="text-decoration: underline; background-color: blue">This is underlined text.</p>
             <p style="text-decoration: overline;">This has an overline.</p>
+            </div>
             <mark style="background-color:green;">milk vggvgvg</mark>
             <b>This is a bold text</b>
             <strong>This is a STRONG text</strong>
             <p>This is free text.<b>This is a bold text </b>this is la suite.<span style="color:pink;">this text is in span1</span><span style="color:green;">this text is in span2</span>autres choses</p>
-
+            
             <code>
               function example() {
                 console.log("This is a code block");
