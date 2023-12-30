@@ -28,9 +28,13 @@ def main(page: ft.Page):
 
 ft.app(target=main)
 ```
+# OutPut:
+(test1.png)
+
 ## Features
 
 For now, **Fletify** support the following HTML tags:
+*
         - "img"
         - "ul"
         - "ol"
@@ -56,7 +60,7 @@ For now, **Fletify** support the following HTML tags:
         - "tr"
         - "th"
         - "td"
-
+*
 ## Contributing
 If you'd like to contribute to FletifyHTML, please open an issue or submit a pull request.
 
