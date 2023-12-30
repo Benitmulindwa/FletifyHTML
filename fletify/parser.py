@@ -59,18 +59,18 @@ class HTML:
 
 
 """
-style_attributes = [
-        "box-shadow",
-        "line-height",
-        "letter-spacing",
-        "word-spacing",
-        "overflow",
-        "position",
-        "top",
-        "right",
-        "bottom",
-        "left",
-    ]
+    style_attributes = [
+            "box-shadow",
+            "line-height",
+            "letter-spacing",
+            "word-spacing",
+            "overflow",
+            "position",
+            "top",
+            "right",
+            "bottom",
+            "left",
+        ]
 """
 
 
