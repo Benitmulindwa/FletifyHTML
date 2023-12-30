@@ -1,9 +1,6 @@
 # FletifyHTML
-"FletifyHTML" is a versatile Python tool designed to seamlessly convert HTML content into Flet code. This project empowers developers to streamline the creation of Flet-based user interfaces by automating the transformation process from standard HTML elements to their Flet equivalents. Simplify your UI development workflow with "Fletify" and effortlessly bridge the gap between HTML and Flet.
 
- FletifyHTML
-
-FletifyHTML is a Python package for converting HTML content into Flet controls. It leverages BeautifulSoup for HTML parsing and Flet for creating rich text-based UI components.
+FletifyHTML is a Python package for converting HTML content into Flet code. It allows you to embed HTML code in your Flet app
 
 ## Installation
 
@@ -32,8 +29,34 @@ def main(page: ft.Page):
 ft.app(target=main)
 ```
 ## Features
-Convert HTML content to Flet controls
-Support for various HTML tags and attributes
+
+For now, **Fletify** support the following HTML tags:
+        - "img"
+        - "ul"
+        - "ol"
+        - "li"
+        - "a"
+        - "b"
+        -  "strong"
+        - "i"
+        -  "em"
+        - "u"
+        - "mark"
+        - "span"
+        -  "div"
+        - "p"
+        - "code"
+        - "h1"
+        - "h2"
+        - "h3"
+        - "h4"
+        - "h5"
+        - "h6"
+        - "table"
+        - "tr"
+        - "th"
+        - "td"
+
 ## Contributing
 If you'd like to contribute to FletifyHTML, please open an issue or submit a pull request.
 
