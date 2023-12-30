@@ -26,5 +26,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.8.*",
-    install_requires=["flet>=0.11.0", "requests>=2.22.0", "bs4>=0.0.1"],
+    install_requires=["flet>=0.11.0", "bs4>=0.0.1"],
 )
