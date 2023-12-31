@@ -8,10 +8,10 @@ FletifyHTML is a Python package for converting HTML content into Flet code. It a
 pip install fletify
 ```
 ### Alternative
-clone the repo and use the `example.py` to test Fletify
+Install via Github and use the `example.py` to test Fletify
 
 ```bash
-git clone https://Benitmulindwa/FletifyHTML.git
+pip install git+https://github.com/Benitmulindwa/FletifyHTML.git
 ```
 ## Usage
 ```python

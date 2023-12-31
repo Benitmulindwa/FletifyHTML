@@ -5,7 +5,7 @@ with open("README.md", "r") as desc:
     long_description = desc.read()
 
 setuptools.setup(
-    name="tkhtmlview",
+    name="fletify",
     version="0.0.1",
     author="Benit Mulindwa",
     keywords="flet html developement python",
@@ -25,6 +25,6 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.8.*",
+    python_requires=">=3.8",
     install_requires=["flet>=0.11.0", "bs4>=0.0.1"],
 )
