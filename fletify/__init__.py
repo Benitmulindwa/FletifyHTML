@@ -12,6 +12,3 @@ class FletifyHTML:
 
     def get_flet(self):
         return self._flet
-
-    # def fletcode(self, html:str):
-    #     return
