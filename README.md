@@ -37,6 +37,8 @@ ft.app(target=main)
 # OutPut:
 ![test1](test1.PNG)
 
+`FletifyHTML()` can receive the HTML file containing the content to be displayed, `FletifyHTML(html=<path-to-your-html-file>)` 
+
 ## Features
 
 For now, **Fletify** support the following HTML tags:
