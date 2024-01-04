@@ -1,6 +1,6 @@
 import flet as ft
 from bs4 import NavigableString, BeautifulSoup
-import requests
+
 
 
 class HTML:
