@@ -15,6 +15,7 @@ pip install git+https://github.com/Benitmulindwa/FletifyHTML.git
 ```
 ## Usage
 ```python
+import flet as ft
 from fletify import FletifyHTML
 
 # Example HTML content
