@@ -59,4 +59,4 @@ If you'd like to contribute to FletifyHTML, please open an issue or submit a pul
 🚨 Give FletifyHTML a try and tell us what you think about it.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
